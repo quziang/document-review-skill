@@ -1,66 +1,47 @@
 # Error recovery and later revisit
 
-This example tests the most important V1 behavior: an incorrect answer should trigger diagnosis, a minimal hint, a retry, and later re-testing rather than immediate answer dumping.
-
 ## Source excerpt
 
 > TCP's three-way handshake allows both endpoints to synchronize initial sequence numbers and helps prevent delayed duplicate connection requests from being mistaken for a valid new connection.
 
-## Case 1: misconception / shallow answer
+## Expected interaction
 
-**Assistant:** Why does TCP use a three-way handshake?
+**Assistant:** According to this paragraph, what two purposes does the handshake serve?
 
-**User:** So both computers know the other one is online.
+**User:** It synchronizes the sequence numbers on both sides.
 
-Expected behavior:
+**Assistant:** That's one purpose. The other concerns requests that arrive late. What problem could those requests create?
 
-**Assistant:** That's not the main reason emphasized in the source. Think about what state both endpoints need to establish, especially sequence numbers. What does the handshake let them synchronize?
+The first answer is `incomplete`. The cue gives a category but leaves the missing claim to retrieve. The retry is part of the same question round.
 
-The assistant should not immediately reveal the whole answer.
+**User:** I don't know.
 
-## Case 2: retry becomes incomplete
+**Assistant:** A delayed duplicate request could be mistaken for a valid new connection. The handshake helps prevent that, according to this paragraph. We'll revisit it after some other topics.
 
-**User:** It synchronizes both sides' sequence numbers.
+Internal result: handshake purposes / explanation remains `partial`; synchronization was independently supplied, but the second purpose was revealed. There is no complete independent success at this level. The assistant moves to a different concept from the learner's material; this short excerpt alone does not provide two other concepts for spaced review.
 
-Expected behavior:
+## Later revisit in a larger document
 
-**Assistant:** Yes, that's one key reason. The source gives one more reason involving old or delayed connection requests. Can you recall it?
+After two completed questions on other concepts from the provided material:
 
-The answer is now `incomplete`, not fully wrong.
+**Assistant:** Explain both roles of the handshake described in the paragraph.
 
-## Case 3: retry fails
+**User:** It aligns initial sequence numbers and keeps an old duplicate request from being accepted as a new connection.
 
-**User:** I don't remember.
+**Assistant:** Correct; you recalled both purposes independently this time.
 
-Expected behavior:
+Internal result: `partial`, now with one independent success. A further different, unassisted explanation question after spacing can confirm `strong`. If the session ends here, report the improvement and the pending confirmation.
 
-**Assistant:** The other reason is to help prevent delayed duplicate connection requests from being mistaken for a valid new connection. We'll come back to this idea later.
+## Other recovery cases
 
-Internal result:
+For a reversed causal claim, identify the claim that conflicts with the text and cue the learner to check the cause and effect. If a correction necessarily reveals the relationship, record it as `answer_revealed`; a repeated correction is not independent retrieval.
 
-- sequence-number synchronization: `partial` or stronger depending on later evidence,
-- duplicate-request protection: `weak`,
-- schedule the broader handshake concept for later revisit.
+If the user explicitly says "just tell me," give the concise answer immediately. Do not force a retry or upgrade the state because the explanation was read.
 
-The assistant should now move on to other concepts instead of immediately asking the same question again.
+## Checks
 
-## Later revisit
-
-After several unrelated questions:
-
-**Assistant:** Suppose an old connection request is delayed in the network and arrives much later. What problem does the three-way handshake help avoid in that situation?
-
-This is intentionally not the same wording as the original question.
-
-If the user now answers independently that the handshake helps prevent an old/delayed request from being accepted as a valid new connection, the skill has evidence that retrieval improved.
-
-## Behavior being tested
-
-- A wrong answer is diagnosed rather than merely labeled wrong.
-- The first intervention is a minimal hint.
-- The user gets a meaningful retry.
-- A partial retry is distinguished from a misconception.
-- The full explanation is revealed only after retrieval fails.
-- Seeing the explanation does not immediately produce `strong` mastery.
-- The concept is spaced with other questions before being tested again.
-- The revisit changes question form or wording.
+- Ask for the actual number of essential points expected.
+- Use a cue before explanation unless the learner requests the answer.
+- Keep one retry brief and record assistance.
+- Preserve demonstrated partial knowledge without claiming full understanding.
+- Count completed questions on other concepts, not conversational turns, as spacing.

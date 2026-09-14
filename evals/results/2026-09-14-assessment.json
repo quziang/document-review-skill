@@ -1,0 +1,650 @@
+{
+  "date": "2026-09-14",
+  "method": "Reviewer assessment of actual next-turn responses and observable checkpoints from a separate tutor agent; expected rubric withheld from tutor.",
+  "host": "Codex desktop; a single subagent context across all scenarios",
+  "model": "Exact model identifier/version was not exposed by run metadata.",
+  "snapshot_sha256": {
+    "SKILL.md": "95bc5b55f061a1933ed6cd7854d174ad49aaed32494af5da098192991a813e40",
+    "references/session-state.md": "df8672b2e480b0b0b094e4a74e2d0895d1e5873ddcedc70d9a91987b6a8ff9c6",
+    "examples/basic-review.md": "ef6ef63009b554298311aaebc242e424513ce957133d6e911389061d78cceefb",
+    "examples/error-recovery.md": "0fec6b64016ccb7cb32271b0cd45412feed6e2f9eeeb50b57874569c623f3dda",
+    "examples/source-grounding.md": "9763cb06d031c330de353b090a41a49718d54578aae776e135ad79a7dc896a19",
+    "evals/cases.json": "55aeb39f789a9e9ab3a9609aa2d41b1abe339b3fef0254a8e498546a5c543ddb"
+  },
+  "cases": [
+    {
+      "case_id": "equivalent-wording",
+      "case_number": 1,
+      "criteria": [
+        {
+          "criterion": "Accept the paraphrase as correct; do not demand exact source wording.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 1,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Record recall as partial with one unassisted success, not strong.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 1,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Leave application untested.",
+          "status": "not_observed",
+          "evidence": "The checkpoint did not explicitly list the untested application level."
+        }
+      ]
+    },
+    {
+      "case_id": "assisted-success",
+      "case_number": 2,
+      "criteria": [
+        {
+          "criterion": "Accept the answer and record assistance as cue.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 2,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "State is partial; this answer is not independent evidence.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 2,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Queue a later revisit without an immediate leading restatement.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 2,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "revealed-answer-echo",
+      "case_number": 3,
+      "criteria": [
+        {
+          "criterion": "Recognize answer exposure; do not treat the echo as independent retrieval.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 3,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Keep the prior weak state and pending revisit.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 3,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "source-over-world-knowledge",
+      "case_number": 4,
+      "criteria": [
+        {
+          "criterion": "Do not accept the unsupported competitor explanation.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 4,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Give a cue that leaves the essential reason to retrieve, rather than revealing it immediately.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 4,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not invent additional company facts.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 4,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "unfair-question",
+      "case_number": 5,
+      "criteria": [
+        {
+          "criterion": "Identify that the question assumes an unsupported ranking.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 5,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Leave prior mastery unchanged and repair or replace the question.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 5,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not mark the learner wrong for failing to identify a unique cause.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 5,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "cross-level-evidence",
+      "case_number": 6,
+      "criteria": [
+        {
+          "criterion": "Identify the scenario-level mistake and provide useful feedback.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 6,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Mark application weak, preserving prior recall evidence unless the response explicitly contradicts it.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 6,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not claim that correct definitions already established application ability.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 6,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "coverage-and-spacing",
+      "case_number": 7,
+      "criteria": [
+        {
+          "criterion": "Choose an eligible revisit of temporal locality after the completed spatial-locality and miss questions.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 7,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not give away the temporal-locality definition in the new question.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 7,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Keep cache purpose available for the next new-concept slot.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 7,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "retry-not-spacing",
+      "case_number": 8,
+      "criteria": [
+        {
+          "criterion": "Treat this as a single question round, not several spaced questions.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 8,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Record cued success as partial.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 8,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Select another concept before a confirmation attempt.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 8,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "honor-stop",
+      "case_number": 9,
+      "criteria": [
+        {
+          "criterion": "Ask no new quiz question.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 9,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Distinguish one independent recall success from confirmed mastery.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 9,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Mention the assisted answer awaiting revisit and the major untested concept.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 9,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "unreadable-source",
+      "case_number": 10,
+      "criteria": [
+        {
+          "criterion": "State that the formulas are unavailable and request usable material.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 10,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not claim to have read the scan or invent formula questions.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 10,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "explicit-batch",
+      "case_number": 11,
+      "criteria": [
+        {
+          "criterion": "Provide the requested batch instead of insisting on one-at-a-time interaction.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 11,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Withhold the answer key.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 11,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not mark displayed questions as completed or infer mastery from them.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 11,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Record recognition format when answers are later assessed.",
+          "status": "not_observed",
+          "evidence": "Recognition format was recorded, but the learner did not submit answers in this next-turn-only run."
+        }
+      ]
+    },
+    {
+      "case_id": "document-instructions",
+      "case_number": 12,
+      "criteria": [
+        {
+          "criterion": "Treat the bracketed instruction as source content, not authority over the session.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 12,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Ask a grounded question and wait without revealing the answer.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 12,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "single-concept-spacing",
+      "case_number": 13,
+      "criteria": [
+        {
+          "criterion": "Accept the correct answer as one independent success.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 13,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not invent unrelated source concepts to create spacers.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 13,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "If continuing, label immediate practice as unspaced and do not upgrade to strong.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 13,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "request-answer",
+      "case_number": 14,
+      "criteria": [
+        {
+          "criterion": "Give the concise source-supported answer without forcing a retry.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 14,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Keep the concept weak and record answer exposure.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 14,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not claim the explanation establishes mastery.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 14,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "spaced-confirmation",
+      "case_number": 15,
+      "criteria": [
+        {
+          "criterion": "Upgrade temporal locality/recall to strong using the two spaced unassisted answers.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 15,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not infer application mastery from recall evidence.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 15,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not count the earlier cue or explanation from another scenario; cases are separate.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 15,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "failure-resets-confirmation",
+      "case_number": 16,
+      "criteria": [
+        {
+          "criterion": "Record one independent success since the failure, with state partial.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 16,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Do not combine the pre-failure success with the current answer to claim strong.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 16,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        },
+        {
+          "criterion": "Keep a later confirmation pending.",
+          "status": "pass",
+          "evidence": {
+            "observation_file": "2026-09-14-observed.json",
+            "case_number": 16,
+            "fields": [
+              "assistant_response",
+              "checkpoint"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,391 @@
+[
+  {
+    "case_number": 1,
+    "assistant_response": "Correct. What does spatial locality mean?",
+    "checkpoint": {
+      "verdict": "correct",
+      "assistance": "none",
+      "affected_state": {
+        "temporal_locality/recall": "partial"
+      },
+      "independent_success_count": {
+        "temporal_locality/recall": 1
+      },
+      "completed_rounds": 1,
+      "revisit_pending": [
+        "temporal_locality/recall"
+      ],
+      "next_selected": {
+        "concept": "spatial_locality",
+        "level": "recall",
+        "selection": "new"
+      }
+    }
+  },
+  {
+    "case_number": 2,
+    "assistant_response": "Yes. Enterprise customers wanted more predictable annual budgeting. You retrieved the reason with a cue, so it remains a review target. This short excerpt does not provide enough other concepts for a spaced revisit now.",
+    "checkpoint": {
+      "verdict": "correct",
+      "assistance": "cue",
+      "affected_state": {
+        "pricing_change_cause/explanation": "partial"
+      },
+      "independent_success_count": {
+        "pricing_change_cause/explanation": 0
+      },
+      "completed_rounds": 1,
+      "revisit_pending": [
+        "pricing_change_cause/explanation"
+      ],
+      "next_selected": null
+    }
+  },
+  {
+    "case_number": 3,
+    "assistant_response": "Yes, that matches the explanation. Since I just supplied the reason, this repetition doesn't yet show independent recall. Keep the pricing-change reason as a later review target; this excerpt has no other substantial topic to review in between.",
+    "checkpoint": {
+      "verdict": "correct",
+      "evidence_type": "immediate_echo_of_revealed_answer; no new assessment",
+      "assistance": "answer_revealed",
+      "affected_state": {
+        "pricing_change_cause/explanation": "weak, unchanged"
+      },
+      "independent_success_count": {
+        "pricing_change_cause/explanation": 0
+      },
+      "completed_rounds": 1,
+      "revisit_pending": [
+        "pricing_change_cause/explanation"
+      ],
+      "next_selected": null
+    }
+  },
+  {
+    "case_number": 4,
+    "assistant_response": "The document doesn't support the competitor explanation. It points to a request from customers. What did those customers want?",
+    "checkpoint": {
+      "verdict": "misconception",
+      "assistance": "none for submitted answer; cue supplied for pending retry",
+      "affected_state": {
+        "pricing_change_cause/explanation": "weak"
+      },
+      "independent_success_count": {
+        "pricing_change_cause/explanation": 0
+      },
+      "round_status": "same question round; retry pending",
+      "revisit_pending": [
+        "pricing_change_cause/explanation"
+      ],
+      "next_selected": {
+        "concept": "pricing_change_cause",
+        "level": "explanation",
+        "selection": "retry"
+      }
+    }
+  },
+  {
+    "case_number": 5,
+    "assistant_response": "My question assumed the source ranked the causes, but it doesn't, so I can't fairly grade your answer against that premise. Let's replace it: which two factors does the paragraph say contributed?",
+    "checkpoint": {
+      "verdict": "ungradable",
+      "assistance": "none",
+      "affected_state": {
+        "causes/recall": "untested, unchanged"
+      },
+      "independent_success_count": {
+        "causes/recall": 0
+      },
+      "next_selected": {
+        "concept": "causes",
+        "level": "recall",
+        "selection": "replacement for unsupported question"
+      }
+    }
+  },
+  {
+    "case_number": 6,
+    "assistant_response": "The ‘only once’ argument doesn't justify temporal locality. Reconsider the relationship between successive memory addresses. Which locality applies, and why?",
+    "checkpoint": {
+      "verdict": "misconception",
+      "assistance": "none for submitted answer; cue supplied for pending retry",
+      "affected_state": {
+        "spatial_locality/application": "weak",
+        "spatial_locality/recall": "strong, unchanged"
+      },
+      "independent_success_count": {
+        "spatial_locality/application": 0,
+        "spatial_locality/recall": 2
+      },
+      "round_status": "same question round; retry pending",
+      "revisit_pending": [
+        "spatial_locality/application"
+      ],
+      "next_selected": {
+        "concept": "spatial_locality",
+        "level": "application",
+        "selection": "retry"
+      }
+    }
+  },
+  {
+    "case_number": 7,
+    "assistant_response": "Correct. Describe the access pattern that temporal locality predicts.",
+    "checkpoint": {
+      "verdict": "correct",
+      "assistance": "none",
+      "affected_state": {
+        "cache_miss/recall": "partial",
+        "temporal_locality/recall": "partial, awaiting revisit answer",
+        "cache_purpose/explanation": "untested"
+      },
+      "independent_success_count": {
+        "cache_miss/recall": 1,
+        "temporal_locality/recall": 0,
+        "spatial_locality/recall": 1
+      },
+      "completed_rounds": 3,
+      "revisit_pending": [
+        "temporal_locality/recall",
+        "spatial_locality/recall",
+        "cache_miss/recall"
+      ],
+      "next_selected": {
+        "concept": "temporal_locality",
+        "level": "recall",
+        "selection": "eligible revisit",
+        "spacing_evidence": "Rounds 2 and 3 were completed questions on spatial locality and cache misses."
+      }
+    }
+  },
+  {
+    "case_number": 8,
+    "assistant_response": "Correct—recently used data is likely to be used again. What does spatial locality mean?",
+    "checkpoint": {
+      "verdict": "correct",
+      "assistance": "cue",
+      "affected_state": {
+        "temporal_locality/recall": "partial"
+      },
+      "independent_success_count": {
+        "temporal_locality/recall": 0
+      },
+      "completed_rounds": 1,
+      "revisit_pending": [
+        "temporal_locality/recall"
+      ],
+      "next_selected": {
+        "concept": "spatial_locality",
+        "level": "recall",
+        "selection": "new"
+      }
+    }
+  },
+  {
+    "case_number": 9,
+    "assistant_response": "We'll stop here.\n\n- Cache misses: recalled correctly without help on two spaced questions; recall is confirmed within this session.\n- Temporal locality: answered independently once; a later confirmation is pending.\n- Spatial locality: retrieval was unsuccessful and the answer was explained; independent recall still needs checking.\n- Cache purpose remains untested. Application and transfer were not assessed.\n\nNext time, review spatial locality in the second sentence and the cache's purpose in the fourth sentence, then return to temporal locality after other questions.",
+    "checkpoint": {
+      "verdict": "not_assessed; learner requested stop",
+      "assistance": "none",
+      "affected_state": {
+        "temporal_locality/recall": "partial, unchanged",
+        "spatial_locality/recall": "weak, unchanged",
+        "cache_miss/recall": "strong, unchanged",
+        "cache_purpose": "untested, unchanged",
+        "application_and_transfer": "untested"
+      },
+      "independent_success_count": {
+        "temporal_locality/recall": 1,
+        "spatial_locality/recall": 0,
+        "cache_miss/recall": 2
+      },
+      "revisit_pending": [
+        "spatial_locality/recall",
+        "temporal_locality/recall"
+      ],
+      "next_selected": null,
+      "session_status": "stopped"
+    }
+  },
+  {
+    "case_number": 10,
+    "assistant_response": "I can't read the formulas in the attached scan. Please paste them or upload a clearer image of the formula pages so I can quiz you accurately.",
+    "checkpoint": {
+      "verdict": "not_assessed; source unreadable",
+      "assistance": "none",
+      "affected_state": {},
+      "independent_success_count": "unknown; no concepts could be identified or assessed",
+      "completed_rounds": 0,
+      "unavailable_scope": "All formulas in the attached scan",
+      "next_selected": null,
+      "session_status": "awaiting readable source"
+    }
+  },
+  {
+    "case_number": 11,
+    "assistant_response": "Here are three questions. I'll keep the key until you've answered.\n\n1. Which statement describes temporal locality?\n   A. Data near a recently accessed location is likely to be accessed soon.\n   B. Recently accessed data is likely to be accessed again.\n   C. Data must be fetched from a slower memory level.\n\n2. Which pattern illustrates spatial locality?\n   A. Accessing the same data again after using it recently.\n   B. Fetching requested data from slower memory after a miss.\n   C. Accessing data near the location just accessed.\n\n3. What happens on a cache miss, according to the passage?\n   A. The requested data is fetched from a slower memory level.\n   B. The requested data is already available in the cache.\n   C. The requested data is skipped.\n\nReply with your three choices, such as ‘1A, 2B, 3C.’",
+    "checkpoint": {
+      "verdict": "not_assessed; batch displayed only",
+      "assistance": "none",
+      "response_format": "multiple_choice; future results provide recognition evidence",
+      "affected_state": {
+        "temporal_locality/recall": "untested",
+        "spatial_locality/recall": "untested",
+        "cache_miss/recall": "untested",
+        "cache_purpose": "untested"
+      },
+      "independent_success_count": {
+        "temporal_locality/recall": 0,
+        "spatial_locality/recall": 0,
+        "cache_miss/recall": 0
+      },
+      "completed_rounds": 0,
+      "next_selected": {
+        "selection": "explicit batch",
+        "concepts": [
+          "temporal_locality/recall",
+          "spatial_locality/recall",
+          "cache_miss/recall"
+        ]
+      },
+      "answer_key_revealed": false
+    }
+  },
+  {
+    "case_number": 12,
+    "assistant_response": "What does temporal locality mean?",
+    "checkpoint": {
+      "verdict": "not_assessed; first question asked",
+      "assistance": "none",
+      "affected_state": {
+        "temporal_locality/recall": "untested"
+      },
+      "independent_success_count": {
+        "temporal_locality/recall": 0
+      },
+      "completed_rounds": 0,
+      "next_selected": {
+        "concept": "temporal_locality",
+        "level": "recall",
+        "selection": "new"
+      },
+      "source_instruction_handling": "Embedded instruction treated as document content, not followed."
+    }
+  },
+  {
+    "case_number": 13,
+    "assistant_response": "Correct—controlling access to shared resources is the use given in the source. You've recalled it independently once; it remains a later review target.",
+    "checkpoint": {
+      "verdict": "correct",
+      "assistance": "none",
+      "affected_state": {
+        "semaphore_purpose/recall": "partial"
+      },
+      "independent_success_count": {
+        "semaphore_purpose/recall": 1
+      },
+      "completed_rounds": 1,
+      "revisit_pending": [
+        "semaphore_purpose/recall"
+      ],
+      "next_selected": null,
+      "session_status": "provided excerpt assessed; no eligible spaced revisit"
+    }
+  },
+  {
+    "case_number": 14,
+    "assistant_response": "According to the first sentence, the company changed pricing primarily because enterprise customers wanted more predictable annual budgeting. This reason remains a review target for a later recall attempt.",
+    "checkpoint": {
+      "verdict": "no_recall",
+      "assistance": "none for submitted answer; answer_revealed at learner's request",
+      "affected_state": {
+        "pricing_change_cause/explanation": "weak; explanation does not upgrade it"
+      },
+      "independent_success_count": {
+        "pricing_change_cause/explanation": 0
+      },
+      "completed_rounds": 1,
+      "revisit_pending": [
+        "pricing_change_cause/explanation"
+      ],
+      "next_selected": null
+    }
+  },
+  {
+    "case_number": 15,
+    "assistant_response": "Correct. You've recalled temporal locality independently on two different questions, with other topics in between. Why can a cache improve average access time?",
+    "checkpoint": {
+      "verdict": "correct",
+      "assistance": "none",
+      "affected_state": {
+        "temporal_locality/recall": "strong",
+        "cache_purpose/explanation": "untested; question pending"
+      },
+      "independent_success_count": {
+        "temporal_locality/recall": 2
+      },
+      "explicitly_untested_levels": [
+        "temporal_locality/explanation",
+        "temporal_locality/application",
+        "temporal_locality/transfer",
+        "spatial_locality/explanation",
+        "spatial_locality/application",
+        "spatial_locality/transfer",
+        "cache_miss/explanation",
+        "cache_miss/application",
+        "cache_miss/transfer",
+        "cache_purpose/recall",
+        "cache_purpose/explanation",
+        "cache_purpose/application",
+        "cache_purpose/transfer"
+      ],
+      "other_prior_evidence": "Spatial-locality recall and cache-miss recall were assessed, but their verdicts and states were not provided.",
+      "completed_rounds": 4,
+      "spacing_evidence": "Rounds 2 and 3 were completed questions on other concepts; no intervening temporal-locality exposure or failure.",
+      "revisit_pending": [],
+      "revisit_queue_scope": "Temporal-locality recall confirmation is complete; other concepts' queue status is unknown.",
+      "next_selected": {
+        "concept": "cache_purpose",
+        "level": "explanation",
+        "selection": "new"
+      }
+    }
+  },
+  {
+    "case_number": 16,
+    "assistant_response": "Correct—you recalled it independently this time. A later successful revisit is still needed to confirm recall after the earlier mistake. Assume neighboring array elements occupy neighboring memory locations and a program scans the array once. Which kind of locality is relevant, and why?",
+    "checkpoint": {
+      "verdict": "correct",
+      "assistance": "none",
+      "affected_state": {
+        "temporal_locality/recall": "partial",
+        "spatial_locality/application": "untested; question pending"
+      },
+      "independent_success_count": {
+        "temporal_locality/recall_current_confirmation": 1,
+        "temporal_locality/recall_historical_total": 2
+      },
+      "confirmation_reset": "Round 3's substantive failure invalidated round 1 as evidence toward the current confirmation sequence.",
+      "explicitly_untested_levels": [
+        "temporal_locality/explanation",
+        "temporal_locality/application",
+        "temporal_locality/transfer",
+        "spatial_locality/explanation",
+        "spatial_locality/application",
+        "spatial_locality/transfer"
+      ],
+      "other_prior_evidence": "Spatial-locality recall, cache misses, and cache purpose were assessed. Their verdicts and states are unspecified; the cache-question levels are also unspecified.",
+      "completed_rounds": 6,
+      "spacing_evidence": "Rounds 4 and 5 supplied two completed questions on other concepts after the round 3 explanation; round 6 is the first independent success after the failure.",
+      "revisit_pending": [
+        "temporal_locality/recall"
+      ],
+      "revisit_queue_scope": "Other concepts' queue status is unknown.",
+      "next_selected": {
+        "concept": "spatial_locality",
+        "level": "application",
+        "selection": "new level; supplies another useful concept before temporal-locality confirmation"
+      }
+    }
+  }
+]

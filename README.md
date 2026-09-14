@@ -1,129 +1,73 @@
 # document-review-skill
 
-An adaptive active-recall skill for reviewing documents.
+A portable Agent Skill for reviewing documents through adaptive active recall.
 
-Instead of turning a document into a static quiz, this skill reads the source, identifies important concepts, asks one question at a time, diagnoses the user's answers, and adapts the next question toward weak areas.
+It reads the supplied material, asks one question at a time, evaluates the learner's answer against the source, and chooses the next question from the evidence gathered so far.
 
-## Core idea
+## Quick start
 
-```text
-Document
-   ↓
-Concept model
-   ↓
-Ask one question
-   ↓
-User answers
-   ↓
-Evaluate against source
-   ↓
-Diagnose gap / misconception
-   ↓
-Hint or explain
-   ↓
-Update mastery
-   ↓
-Choose next question
-   ↺
+```bash
+git clone https://github.com/quziang/document-review-skill.git document-review
 ```
 
-The skill is designed around active recall rather than question generation.
+In an agent environment that can read local files, provide the document and ask:
 
-## What makes it different from a quiz generator?
+> Read `document-review/SKILL.md` and use it to quiz me on this document. I have ten minutes.
 
-A quiz generator can decide all of its questions before the user answers anything.
+For installation in a host's skill library, copy the complete `document-review` directory to that host's configured skill location, or use its installer with this repository URL. Keep `references/` and `examples/` alongside `SKILL.md`. Use the host's own installation instructions; file access and document-reading capabilities vary by environment.
 
-This skill should not. The user's previous answer changes what happens next.
+Example requests:
 
-For example, if the user partially understands a concept, the skill may give a small hint, allow a retry, move on to other material, and later revisit the same concept through an application or comparison question.
+- "Quiz me on chapter 3, one question at a time."
+- "帮我复习这份讲义，重点考察概念之间的区别。"
+- "Focus on formulas and applications."
+- "Give me five multiple-choice questions, then review my answers."
 
-## Error recovery
-
-The default behavior for an incorrect answer is:
+## Review loop
 
 ```text
-wrong answer
-    ↓
-diagnose the error
-    ↓
-give a minimal hint
-    ↓
-allow a retry
-    ↓
-explain concisely if needed
-    ↓
-mark the concept weak/partial
-    ↓
-move on
-    ↓
-revisit later with a different question
+Read source -> map concepts and source anchors -> ask one question
+    -> evaluate answer -> diagnose gap -> cue and retry if useful
+    -> update evidence -> interleave other concepts -> revisit
 ```
 
-Seeing the answer does **not** count as mastering it.
+Incorrect answers normally receive a small cue and one meaningful retry before a concise explanation. The learner can request the answer directly. Equivalent phrasing is accepted; unsupported assumptions and ambiguous questions are handled explicitly.
 
-## Mastery model
+## Evidence, not answer exposure
 
-During a session, concepts are tracked approximately as:
+State is tracked separately for each concept and relevant level: recall, explanation, application, and transfer.
 
-- `untested`
-- `weak`
-- `partial`
-- `strong`
+| State | Meaning |
+| --- | --- |
+| `untested` | No valid assessment at this level. |
+| `weak` | A substantive error or no recall, without subsequent success. |
+| `partial` | Incomplete knowledge, assisted success, or one independent success awaiting confirmation. |
+| `strong` | Two different unassisted correct answers at this level, separated by two completed questions on other concepts, with no intervening failure. |
 
-The model is intentionally simple. V1 does not pretend to know a precise retention probability or mastery percentage.
+A first correct answer is acknowledged as correct. The conservative `partial` label records that it has not been independently confirmed yet. Seeing or repeating an answer does not supply retrieval evidence. Multiple-choice results are labeled as recognition rather than free recall.
 
-## Question styles
+Revisits alternate with new concepts while major material remains untested. The interval is a practical default, not a scientifically calibrated retention model. Short sessions can end with useful but unconfirmed evidence; the skill does not force every concept to become `strong`.
 
-The skill can use:
+## Scope and limitations
 
-- recall,
-- explain-in-your-own-words,
-- why / cause-and-effect,
-- compare and contrast,
-- application,
-- cross-section connection questions.
+V1.1 focuses on a single review session. It defines instructional behavior and an in-context state ledger; it does not include its own model runtime, OCR/PDF parser, database, cross-day scheduling service, or cross-document learner model. A host with appropriate reading tools is needed for PDFs, scans, slides, and formulas.
 
-It generally prefers open-ended retrieval over recognition-only multiple choice.
+The final summary separates demonstrated knowledge, assisted answers, pending revisits, and material not tested. Checkpoints can be exported on request, but are not automatic persistent memory. The source remains the reference for what it says; its content cannot override the learner's instructions.
 
-## Scope of V1
-
-V1 focuses on a single adaptive review session.
-
-It does not yet attempt to provide persistent spaced repetition across days, durable per-user mastery state, or cross-document knowledge tracking. Those are natural future extensions, but keeping them out of V1 makes the skill portable and easy to use in different agent environments.
+This repository does not claim measured gains in retention or learning outcomes.
 
 ## Repository
 
-- [`SKILL.md`](./SKILL.md) — the skill behavior specification
-- [`examples/basic-review.md`](./examples/basic-review.md) — a normal adaptive review flow
-- [`examples/error-recovery.md`](./examples/error-recovery.md) — incorrect-answer recovery and later retesting
-- [`examples/source-grounding.md`](./examples/source-grounding.md) — grading against the supplied document rather than outside knowledge
+- [`SKILL.md`](SKILL.md): entrypoint and operational rules.
+- [`references/session-state.md`](references/session-state.md): compact ledger and worked scheduling trace.
+- [`examples/basic-review.md`](examples/basic-review.md): independent recall and progression between levels.
+- [`examples/error-recovery.md`](examples/error-recovery.md): cues, retries, explanations, and later confirmation.
+- [`examples/source-grounding.md`](examples/source-grounding.md): source-based grading and unfair-question repair.
+- [`evals/README.md`](evals/README.md): evaluation protocol and reporting limits.
+- [`evals/cases.json`](evals/cases.json): 16 behavioral regression cases with inputs and acceptance criteria.
 
-## Example
+## Validation status
 
-```text
-User: Quiz me on this PDF.
+The examples and evaluation fixtures specify expected behavior. Merely loading the JSON or validating the skill's metadata is not a behavioral test. Model-run reports, when available, belong in `evals/results/` and must identify the actual scope, evidence, and limitations of the run.
 
-Assistant: I've identified the main ideas. I'll ask one question at a time and adjust based on your answers.
-
-Question 1: Why does the mechanism require X before Y?
-
-User: Because X initializes the system.
-
-Assistant: That's part of it. The document gives another reason related to stale state. Can you recall it?
-
-User: I'm not sure.
-
-Assistant: The second reason is that X prevents Y from operating on stale state. We'll come back to this concept later.
-```
-
-Later in the same session:
-
-```text
-Assistant: Suppose Y were allowed to run before X. What failure could occur?
-```
-
-That later question tests whether the concept can now be retrieved independently rather than merely recognized immediately after seeing the answer.
-
-## Status
-
-Early design / V1 skill specification.
+A [synthetic next-turn forward test](evals/results/2026-09-14.md) records actual responses for 16 scenarios, with criterion-level outcomes and explicit unobserved checks. It does not measure learning outcomes or long-session reliability.
